@@ -12,10 +12,7 @@ npm install
 
 ### Usage
 
-`npm start` - start development server
-
-`npm run build` - create production ready bundle
-
-`npm test` - run Jest
-
+`npm start` - start development server  
+`npm run build` - create production ready bundle  
+`npm test` - run Jest  
 `npm run tsc` - run type-check
