@@ -1,12 +1,21 @@
-# Typescript React Starter
+# TypeScript React Starter
 
-Typescript React starter based on Babel.
+Simple and easily extendable starter kit.
+
+### What's included
+
+- Webpack
+- Babel
+- Jest
+- Redux
+- styled-components
+- react-hot-loader
 
 ### Installation
 
 ```sh
-git clone https://github.com/iksz1/ts-react-starter.git
-cd ts-react-starter
+git clone https://github.com/iksz1/ts-react-starter.git MyApp
+cd MyApp
 npm install
 ```
 
