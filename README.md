@@ -23,5 +23,6 @@ npm install
 
 `npm start` - start development server  
 `npm run build` - create production ready bundle  
+`npm run clean` - clean build output  
 `npm test` - run Jest  
 `npm run tsc` - run type-check
