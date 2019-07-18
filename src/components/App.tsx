@@ -1,5 +1,5 @@
 import React from "react";
-import { hot } from "react-hot-loader";
+import { hot } from "react-hot-loader/root";
 import { createGlobalStyle } from "styled-components";
 import Calc from "./Calc";
 
@@ -29,4 +29,4 @@ const App = () => (
   </>
 );
 
-export default hot(module)(App);
+export default hot(App);
