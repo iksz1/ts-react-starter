@@ -1,7 +1,10 @@
 const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const autoprefixer = require("autoprefixer");
+const cssnano = require("cssnano");
 
-//https://webpack.js.org/plugins/html-webpack-plugin/
+// https://webpack.js.org/plugins/html-webpack-plugin/
 const htmlPlugin = new HtmlWebPackPlugin({
   template: "public/index.html",
   favicon: "public/favicon.ico",
@@ -20,9 +23,15 @@ const htmlPlugin = new HtmlWebPackPlugin({
   },
 });
 
+// replacement for ExtractTextWebpackPlugin
+const extractPlugin = new MiniCssExtractPlugin({
+  filename: "[name].[hash:8].css",
+  chunkFilename: "[id].css",
+});
+
 module.exports = (env, argv) => {
   const isProduction = argv.mode === "production";
-  const plugins = [htmlPlugin];
+  const plugins = [htmlPlugin, extractPlugin];
 
   return {
     entry: ["./config/polyfills.js", "./src/index.tsx"],
@@ -38,7 +47,22 @@ module.exports = (env, argv) => {
         {
           test: /\.(jsx?|tsx?)$/,
           exclude: /node_modules/,
-          use: ["babel-loader?cacheDirectory"], //order matters
+          use: ["babel-loader?cacheDirectory"], // order matters
+        },
+        {
+          test: /\.(css|scss)$/,
+          use: [
+            isProduction ? MiniCssExtractPlugin.loader : "style-loader",
+            {
+              loader: "css-loader",
+              options: { importLoaders: 2 },
+            },
+            {
+              loader: "postcss-loader",
+              options: { ident: "postcss", plugins: [autoprefixer(), cssnano()] },
+            },
+            "sass-loader",
+          ],
         },
         {
           test: /\.(eot|woff|woff2|ttf|svg|png|jpg|gif)$/,
@@ -48,11 +72,11 @@ module.exports = (env, argv) => {
       ],
     },
     devServer: {
-      // host: "0.0.0.0", //makes server accessible over local network
+      // host: "0.0.0.0", // makes server accessible over local network
       port: 3000,
       compress: true,
       overlay: true,
-      historyApiFallback: true, //redirect 404 to index.html
+      historyApiFallback: true, // redirect 404 to index.html
       stats: "minimal",
     },
     stats: { children: false, modules: false, moduleTrace: false },
